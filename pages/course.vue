@@ -1,0 +1,1 @@
+<template>this a course page</template>
