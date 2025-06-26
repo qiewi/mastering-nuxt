@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt'],
-  css: ['~/.nuxt/tailwind.css'],
-  tailwindcss: {
-    cssPath: '~/.nuxt/tailwind.css'
-  }
+  imports: {
+    dirs: ['composables']
+  },
+  css: ['~/assets/css/main.css']
 })
