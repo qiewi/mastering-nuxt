@@ -18,6 +18,7 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "7.0.0-beta.0",
     "@tailwindcss/typography": "^0.5.16",
+    "nuxi": "^3.25.1",
     "tailwindcss": "^4.1.10"
   }
 }
