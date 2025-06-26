@@ -41,7 +41,7 @@ export default {
             title: 'Advanced TypeScript Patterns',
             slug: '1-advanced-typescript-patterns',
             number: 1,
-            sourceUrl: '',
+            sourceUrl: 'https://vueschool.io/lessons/advanced-typescript-patterns',
             downloadUrl: 'https://vueschool.io/lessons/advanced-typescript-patterns',
             videoId: 684236335,
             text: `Explore advanced TypeScript patterns and how to apply them in Vue.js applications.`
@@ -50,7 +50,7 @@ export default {
             title: 'TypeScript with Pinia',
             slug: '2-typescript-with-pinia',
             number: 2,
-            sourceUrl: '',
+            sourceUrl: 'https://vueschool.io/lessons/typescript-with-pinia',
             downloadUrl: 'https://vueschool.io/lessons/typescript-with-pinia',
             videoId: 684236336,
             text: `Learn how to use TypeScript with Pinia for type-safe state management.`
