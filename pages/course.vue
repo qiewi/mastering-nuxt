@@ -15,13 +15,12 @@
             <div
                 class="prose mr-4 p-8 bg-white rounded-md min-w-[20ch] flex flex-col"
             >
-                <h3 class="font-bold">Chapters</h3>
+                <h3>Chapters</h3>
                 <!-- Lesson and course will be listed here -->
             </div>
 
             <div class="prose p-12 bg-white rounded-md w-[65ch]">
-                <h2 class="font-bold">Lessons</h2>
-                <p>This is a lesson</p>
+                <NuxtPage />
                 <!-- Lesson and course will be listed here -->
             </div>
         </div>
