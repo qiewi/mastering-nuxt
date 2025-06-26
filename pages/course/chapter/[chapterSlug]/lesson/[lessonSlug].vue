@@ -57,7 +57,7 @@ useHead({
     title,
 })
 
-const progress = useState<boolean[][]>('progress', () => []);
+const progress = useLocalStorage<boolean[][]>('progress', []);
 
 const isLessonCompleted = computed(() => {
     const chapterIndex = (chapter?.value?.number || 1) - 1;

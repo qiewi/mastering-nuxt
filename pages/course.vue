@@ -43,7 +43,7 @@
                 <!-- Lesson and course will be listed here -->
             </div>
 
-            <div class="prose p-12 bg-white rounded-md w-full max-w-[75ch]">
+            <div class="prose p-12 bg-white rounded-md w-full max-w-[80ch]">
                 <NuxtPage />
                 <!-- Lesson and course will be listed here -->
             </div>
