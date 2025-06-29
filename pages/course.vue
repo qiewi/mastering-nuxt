@@ -15,7 +15,7 @@
             <h3>Chapters</h3>
             <div
                 class="space-y-1 mb-4 flex flex-col"
-                v-for="chapter in course.chapters"
+                v-for="chapter in chapters"
                 :key="chapter.slug"
             >
                 <h4>{{ chapter.title }}</h4>
@@ -41,12 +41,34 @@
         </div>
 
         <div class="prose p-12 bg-white rounded-md w-full max-w-[80ch]">
-            <NuxtPage />
+            <NuxtErrorBoundary>
+                <NuxtPage />
+                <template #error="{ error }">
+                    <p>
+                        Oh no! Something went wrong with the lesson.
+                        <code>{{ error  }}</code>
+                    </p>
+                    <p>
+                        <button
+                            class="hover:cursor-pointer bg-gray-500 text-white font-bold px-2"
+                            @click="resetError(error)"
+                        >
+                            Reset
+                        </button>
+                    </p>
+                </template>
+            </NuxtErrorBoundary>
             <!-- Lesson and course will be listed here -->
         </div>
     </div>
 </template>
 
 <script setup>
-const course = useCourse();
+import { useCourse } from '~/composables/useCourse';
+
+const { chapters } = useCourse();
+
+const resetError = (error) => {
+    error.value = null;
+}
 </script>

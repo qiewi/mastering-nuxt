@@ -37,6 +37,8 @@
 </template>
 
 <script setup>
+import { useCourse } from '~/composables/useCourse';
+
 const course = useCourse();
 const route = useRoute();
 
