@@ -28,15 +28,15 @@
         <ClientOnly>
             <LessonCompletedButton 
                 :model-value="isLessonCompleted" 
-                @update:model-value="toggleLessonCompleted"
+                @update:model-value="
+                    throw createError('Could not update');
+                "
             />
         </ClientOnly>
     </div>
 </template>
 
-<script setup lang="ts">
-import useCourse from '~/composables/useCourse'
-
+<script setup>
 const course = useCourse();
 const route = useRoute();
 
@@ -59,7 +59,7 @@ useHead({
     title,
 })
 
-const progress = useLocalStorage<boolean[][]>('progress', []);
+const progress = useLocalStorage('progress', []);
 
 const isLessonCompleted = computed(() => {
     const chapterIndex = (chapter?.value?.number || 1) - 1;
