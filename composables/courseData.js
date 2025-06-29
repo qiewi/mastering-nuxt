@@ -29,6 +29,15 @@ export default {
             downloadUrl: 'https://vueschool.io/lessons/typescript-in-vue-components',
             videoId: 684236334,
             text: `Learn how to properly set up TypeScript in Vue.js 3 components using the Composition API.`
+          },
+          {
+            title: 'Typing Component Events',
+            slug: '3-typing-component-events',
+            number: 3,
+            sourceUrl: '',
+            downloadUrl: 'https://vueschool.io/lessons/typing-component-events',
+            videoId: 684236335,
+            text: `Learn how to properly type component events in Vue.js 3.`
           }
         ]
       },

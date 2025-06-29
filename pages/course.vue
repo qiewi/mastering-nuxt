@@ -68,7 +68,10 @@ import { useCourse } from '~/composables/useCourse';
 
 const { chapters } = useCourse();
 
-const resetError = (error) => {
-    error.value = null;
+const resetError = async (error) => {
+    throw createError({
+        fatal: true,
+        message: 'Fatal Error',
+    })
 }
 </script>
