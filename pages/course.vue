@@ -65,8 +65,6 @@
 </template>
 
 <script setup>
-import { useCourse } from '~/composables/useCourse';
-
 const { chapters, title } = useCourse();
 
 const resetError = async (error) => {

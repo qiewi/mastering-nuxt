@@ -12,7 +12,5 @@
 </template>
 
 <script setup lang="ts">
-import { useCourse } from '~/composables/useCourse';
-
 const { title } = useCourse();
 </script>
