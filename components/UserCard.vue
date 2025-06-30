@@ -11,6 +11,7 @@
             <div class="font-medium">{{ name }}</div>
             <button
                 class="text-sm underline text-slate-500"
+                @click="logout"
             >
                 Logout
             </button>
@@ -20,6 +21,28 @@
 
 <script setup lang="ts">
 const user = useSupabaseUser();
+const { auth } = useSupabaseClient();
+
+const logout = async () => {
+    const { error } = await auth.signOut();
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    try {
+        await $fetch('api/supabase/session', {
+            method: 'POST',
+            body: { event: 'SIGNED_OUT', session: null },
+        });
+        user.value = null;
+    } catch (e) {
+        console.error(error);
+    }
+
+    await navigateTo('/login');
+};
 
 const name = computed(
     () => user.value?.user_metadata.name

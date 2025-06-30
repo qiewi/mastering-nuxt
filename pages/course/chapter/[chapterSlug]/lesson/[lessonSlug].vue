@@ -41,45 +41,46 @@ const course = useCourse();
 const route = useRoute();
 
 definePageMeta({
-    middleware: [function ({params}, from) {
-        const course = useCourse();
+    middleware: [
+        function ({params}, from) {
+            const course = useCourse();
 
-        const chapter = course.chapters.find(
-            chapter => chapter.slug === params.chapterSlug
-        );
-        
-        
-        if (!chapter) {
-            throw abortNavigation(createError({
-                statusCode: 404,
-                message: 'Chapter not found',
-            })
-          );
-        }
+            const chapter = course.chapters.find(
+                chapter => chapter.slug === params.chapterSlug
+            );
+            
+            
+            if (!chapter) {
+                throw abortNavigation(createError({
+                    statusCode: 404,
+                    message: 'Chapter not found',
+                })
+              );
+            }
 
-        const lesson = chapter.lessons.find(
-            lesson => lesson.slug === params.lessonSlug
-        );
-        
-        if (!lesson) {
-            throw abortNavigation(createError({
-                statusCode: 404,
-                message: 'Lesson not found',
-            })
-          );
-        }   
-    },
-    'auth',
-  ],
+            const lesson = chapter.lessons.find(
+                lesson => lesson.slug === params.lessonSlug
+            );
+            
+            if (!lesson) {
+                throw abortNavigation(createError({
+                    statusCode: 404,
+                    message: 'Lesson not found',
+                })
+              );
+            }   
+        },
+        'auth',
+    ],
 })
 
-if (
-    route.params.lessonSlug === '3-typing-component-events'
-) {
-    console.log(
-        route.params.paramthatdoesnotexistwhoops.capitalizeIsNotAMethod()
-    )
-}
+// if (
+//     route.params.lessonSlug === '3-typing-component-events'
+// ) {
+//     console.log(
+//         route.params.paramthatdoesnotexistwhoops.capitalizeIsNotAMethod()
+//     )
+// }
 
 const chapter = computed(() => {
     return course.chapters.find(
