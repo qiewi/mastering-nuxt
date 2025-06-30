@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt', 
     '@nuxtjs/supabase'
   ],
+  supabase: {
+    redirect: false
+  },
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()]
