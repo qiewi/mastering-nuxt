@@ -14,30 +14,31 @@
 
 <script setup lang="ts">
 const { title } = useCourse();
+const { query } = useRoute();
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-// Redirect to home if already logged in
-if (user.value) {
-    await navigateTo('/');
-}
+onMounted(async () => {
+    await nextTick(); // wait for hydration
 
-watch(user, (newUser) => {
-    if (newUser) {
-        navigateTo('/');
-    }
+    const checkUserInterval = setInterval(async () => {
+        if (user.value) {
+            clearInterval(checkUserInterval);
+            await navigateTo(query.redirectTo as string, { replace: true });
+        }
+    }, 200);
 });
 
 const login = async () => {
+    const redirectTo = `${window.location.origin}/login?redirectTo=${query.redirectTo}`;
+
     const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
-        options: {
-            redirectTo: `${window.location.origin}/login`
-        }
+        options: { redirectTo }
     });
 
     if (error) {
-        console.error(error);
+        console.error('OAuth error:', error);
     }
 };
 </script>
