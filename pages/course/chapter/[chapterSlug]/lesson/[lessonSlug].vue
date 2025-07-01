@@ -39,6 +39,8 @@
 <script setup>
 const course = useCourse();
 const route = useRoute();
+const { chapterSlug, lessonSlug } = route.params;
+const lesson = await useLesson(chapterSlug, lessonSlug);
 
 definePageMeta({
     middleware: [
@@ -88,11 +90,11 @@ const chapter = computed(() => {
     )
 });
 
-const lesson = computed(() => {
-    return chapter.value?.lessons.find(
-        lesson => lesson.slug === route.params.lessonSlug
-    )
-})
+// const lesson = computed(() => {
+//     return chapter.value?.lessons.find(
+//         lesson => lesson.slug === route.params.lessonSlug
+//     )
+// })
 
 const title = computed(() => {
     return `${lesson.value?.title} - ${course.title}`
