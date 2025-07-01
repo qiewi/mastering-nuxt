@@ -8,14 +8,14 @@
             <NuxtLink
                 v-if="lesson?.sourceUrl"
                 class="font-normal text-md text-gray-500"
-                :to="lesson?.path"
+                :to="lesson?.sourceUrl"
             >
                 Download Source Code
             </NuxtLink>
             <NuxtLink
                 v-if="lesson?.downloadUrl"
                 class="font-normal text-md text-gray-500"
-                :to="lesson?.path"
+                :to="lesson?.downloadUrl"
             >
                 Download Video
             </NuxtLink>
@@ -37,17 +37,17 @@
 </template>
 
 <script setup>
-const course = useCourse();
+const course = await useCourse();
 const route = useRoute();
 const { chapterSlug, lessonSlug } = route.params;
 const lesson = await useLesson(chapterSlug, lessonSlug);
 
 definePageMeta({
     middleware: [
-        function ({params}, from) {
-            const course = useCourse();
+        async function ({params}, from) {
+            const course = await useCourse();
 
-            const chapter = course.chapters.find(
+            const chapter = course.value.chapters?.find(
                 chapter => chapter.slug === params.chapterSlug
             );
             
@@ -85,7 +85,7 @@ definePageMeta({
 // }
 
 const chapter = computed(() => {
-    return course.chapters.find(
+    return course.value.chapters?.find(
         chapter => chapter.slug === route.params.chapterSlug
     )
 });
@@ -97,7 +97,7 @@ const chapter = computed(() => {
 // })
 
 const title = computed(() => {
-    return `${lesson.value?.title} - ${course.title}`
+    return `${lesson?.value?.title} - ${course.value?.title}`
 })
 useHead({
     title,
@@ -106,7 +106,7 @@ useHead({
 const progress = useLocalStorage('progress', []);
 
 const isLessonCompleted = computed(() => {
-    const chapterIndex = (chapter?.value?.number || 1) - 1;
+    const chapterIndex = (chapter.value?.number || 1) - 1;
     const lessonIndex = (lesson?.value?.number || 1) - 1;
     
     if (!progress.value[chapterIndex]) return false;
@@ -116,7 +116,7 @@ const isLessonCompleted = computed(() => {
 })
 
 const toggleLessonCompleted = () => {
-    const chapterIndex = (chapter?.value?.number || 1) - 1;
+    const chapterIndex = (chapter.value?.number || 1) - 1;
     const lessonIndex = (lesson?.value?.number || 1) - 1;
 
     if (!progress.value[chapterIndex]) {

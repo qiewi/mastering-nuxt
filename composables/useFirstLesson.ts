@@ -1,7 +1,5 @@
-import { useCourse } from "./useCourse";
+export default async() => {
+    const course = await useCourse();
 
-export default () => {
-    const { chapters } = useCourse();
-
-    return chapters[0].lessons[0];
+    return course.value.chapters[0].lessons[0];
 }
