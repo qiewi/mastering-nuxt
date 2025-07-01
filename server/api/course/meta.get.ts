@@ -1,36 +1,43 @@
-import type { Course, Chapter, CourseMeta, OutlineChapter, OutlineLesson } from '~/types/course';
-import course from '~/server/courseData';
+import { PrismaClient, Prisma } from "@prisma/client";
 
-course as Course;
+const prisma = new PrismaClient();
 
-export default defineEventHandler(
-    (event): CourseMeta => {
-        const outline: OutlineChapter[] = course.chapters.reduce(
-            (prev: OutlineChapter[], next: Chapter) => {
-                const lessons: OutlineLesson[] = next.lessons.map(
-                    (lesson) => ({
-                        title: lesson.title,
-                        slug: lesson.slug,
-                        number: lesson.number,
-                        path: `/course/chapter/${next.slug}/lesson/${lesson.slug}`,
-                    })
-                );
-
-                const chapter: OutlineChapter = {
-                    title: next.title,
-                    slug: next.slug,
-                    number: next.number,
-                    lessons,
-                };
-
-                return [...prev, chapter];
-            },
-            [] 
-        );
-
-        return {
-            title: course.title,
-            chapters: outline,
-        };
+const lessonSelect = Prisma.validator<Prisma.LessonSelect>()({
+    title: true,
+    slug: true,
+    number: true
+});
+  
+export type LessonOutline = Prisma.LessonGetPayload<{
+    select: typeof lessonSelect;
+}> & { path: string };
+  
+const chapterSelect = Prisma.validator<Prisma.ChapterSelect>()({
+    title: true,
+    slug: true,
+    number: true,
+    lessons: {
+      select: lessonSelect
     }
-);
+});
+  
+export type ChapterOutline = Omit<
+    Prisma.ChapterGetPayload<{ select: typeof chapterSelect }>,
+    "lessons"
+> & { lessons: LessonOutline[] };
+
+const courseSelect = Prisma.validator<Prisma.CourseSelect>()({
+    title: true,
+    chapters: {
+      select: chapterSelect
+    }
+});
+  
+export type CourseOutline = Omit<
+    Prisma.CourseGetPayload<{ select: typeof courseSelect }>,
+    "chapters"
+> & { chapters: ChapterOutline[] };
+
+export default defineEventHandler(async (event) => {
+    return prisma.course.findFirst({select: courseSelect})
+})
