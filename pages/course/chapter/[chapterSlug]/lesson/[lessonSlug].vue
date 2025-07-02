@@ -27,20 +27,24 @@
         <p>{{ lesson?.text }}</p>
         <ClientOnly>
             <LessonCompletedButton 
-                :model-value="isLessonCompleted" 
-                @update:model-value="
-                    throw createError('Could not update');
-                "
+                v-if="user"
+                :model-value="isCompleted" 
+                @update:model-value="toggleComplete"                "
             />
         </ClientOnly>
     </div>
 </template>
 
 <script setup>
+import { useCourseProgress } from '~/stores/courseProgress.ts';
 const course = await useCourse();
 const route = useRoute();
 const { chapterSlug, lessonSlug } = route.params;
 const lesson = await useLesson(chapterSlug, lessonSlug);
+const store = useCourseProgress();
+const { initialize, toggleComplete } = store;
+
+initialize();
 
 definePageMeta({
     middleware: [
@@ -84,6 +88,12 @@ definePageMeta({
 //     )
 // }
 
+const isCompleted = computed(() => {
+    return course.value.chapters?.find(
+        chapter => chapter.slug === route.params.chapterSlug
+    );
+});
+
 const chapter = computed(() => {
     return course.value.chapters?.find(
         chapter => chapter.slug === route.params.chapterSlug
@@ -102,28 +112,5 @@ const title = computed(() => {
 useHead({
     title,
 })
-
-const progress = useLocalStorage('progress', []);
-
-const isLessonCompleted = computed(() => {
-    const chapterIndex = (chapter.value?.number || 1) - 1;
-    const lessonIndex = (lesson?.value?.number || 1) - 1;
-    
-    if (!progress.value[chapterIndex]) return false;
-    if (!progress.value[chapterIndex][lessonIndex]) return false;
-
-    return progress.value[chapterIndex][lessonIndex];
-})
-
-const toggleLessonCompleted = () => {
-    const chapterIndex = (chapter.value?.number || 1) - 1;
-    const lessonIndex = (lesson?.value?.number || 1) - 1;
-
-    if (!progress.value[chapterIndex]) {
-        progress.value[chapterIndex] = [];
-    }
-
-    progress.value[chapterIndex][lessonIndex] = !isLessonCompleted.value;
-}
 
 </script>
