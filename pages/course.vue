@@ -16,10 +16,19 @@
         <h3>Chapters</h3>
         <div
           class="space-y-1 mb-4 flex flex-col"
-          v-for="chapter in course.chapters"
+          v-for="(chapter, index) in course.chapters"
           :key="chapter.slug"
         >
-          <h4>{{ chapter.title }}</h4>
+          <h4 class="flex justify-between items-center">
+            {{ chapter.title }}
+            <span
+              v-if="percentageCompleted && user"
+              class="text-emerald-500 text-sm"
+            >
+              {{ percentageCompleted.chapters[index] }}%
+            </span>
+
+          </h4>
           <NuxtLink
             v-for="(lesson, index) in chapter.lessons"
             :key="lesson.slug"
@@ -36,7 +45,14 @@
             </span>
           </NuxtLink>
         </div>
-        <!-- Lesson and course will be listed here -->
+        <!-- course progress -->
+         <div
+          v-if="percentageCompleted"
+          class="mt-8 text-sm font-medium text-gray-500 flex justify-between items-center"
+         >
+          Course Completion:
+          <span> {{ percentageCompleted.course }}% </span>
+         </div>
       </div>
 
       <div class="prose p-12 bg-white rounded-md w-full max-w-[80ch]">
@@ -64,8 +80,16 @@
 </template>
 
 <script setup>
+import { useCourseProgress } from "~/stores/courseProgress";
+import { storeToRefs } from "pinia";
+
+const user = useSupabaseUser();
 const course = await useCourse();
 const firstLesson = await useFirstLesson();
+
+const { percentageCompleted } = storeToRefs(
+  useCourseProgress()
+);
 
 const resetError = async (error) => {
   await navigateTo(firstLesson.path);
