@@ -1,10 +1,10 @@
 <template>
   <section class="space-y-12 flex flex-col items-center py-16 px-8 bg-white">
-    <h1 class="text-7xl font-black text-blue-500 m-0 p-0">
+    <h1 class="text-7xl font-black text-blue-500 m-0 py-16">
       {{ course.title }}
     </h1>
     <img
-      :src="screenshots[2]"
+      :src="screenshots[0]"
       class="w-full rounded-lg shadow-lg border-2 border-slate-200"
     />
     <div class="text-2xl font-medium">
@@ -68,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import CourseScreen from '~/assets/images/course.png';
 const course = await useCourse();
 const learningOutcomes = [
   'Hands-On Experience with the Benefits of TypeScript',
@@ -77,11 +78,7 @@ const learningOutcomes = [
   'How to type reactive data, refs, props, custom events, event handlers, DOM elements, template refs, data from provide/inject, and more'
 ];
 const screenshots = [
-  '/images/screen1.png',
-  '/images/screen2.png',
-  '/images/screen3.png',
-  '/images/screen4.png',
-  '/images/screen5.png',
+  CourseScreen,
 ];
 
 definePageMeta({
