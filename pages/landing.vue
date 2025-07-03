@@ -64,7 +64,7 @@
   </Section>
 
   <!-- Payment Modal -->
-  <Payment v-if="showPayment" @close="showPayment = false" />
+  <LazyPayment v-if="showPayment" @close="showPayment = false" />
 </template>
 
 <script setup lang="ts">
