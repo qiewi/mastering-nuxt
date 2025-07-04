@@ -29,6 +29,7 @@
     "@vueuse/nuxt": "^13.4.0",
     "nuxi": "^3.25.1",
     "pinia": "^3.0.3",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "vite-plugin-vsharp": "^1.9.1"
   }
 }
